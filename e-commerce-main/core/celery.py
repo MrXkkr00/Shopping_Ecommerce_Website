@@ -4,7 +4,7 @@ from celery import Celery
 from django.conf import settings
 
 # Set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings.base')
 
 app = Celery('core',  backend='redis://localhost:6379/0', broker='redis://localhost:6379/0',
              broker_connection_retry_on_startup=True)  # Replace 'your_project' with your project's name.
