@@ -19,4 +19,51 @@ class Media(models.Model):
         return self.id
 
 
-class Settings
+class Settings(models.Model):
+    home_image =models.ForeignKey('common.Media', on_delete=models.SET_NULL,null=True, blank=True)
+    home_title = models.CharField(_('Title'), max_length=150)
+    home_subtitle = models.CharField(_('Subtitle'), max_length=150)
+
+
+    def __str__(self):
+        return self.home_title
+
+
+class Country(models.Model):
+    name = models.CharField(_('Name'), max_length=120)
+    code = models.CharField(_("Code"), max_length=2)
+
+
+    def __str__(self):
+        return self.name
+
+
+class Region(models.Model):
+    name = models.CharField(_('Name'), max_length=120)
+    country = models.ForeignKey('common.Country', on_delete=models.CASCADE, related_name='region')
+
+
+    def __str__(self):
+        return self.name
+
+
+
+class OurInstagramStory(models.Model):
+    image = models.ForeignKey(Media, on_delete=models.CASCADE, related_name='instagram_stories')
+    story_link = models.URLField(_('Story Link'))    # TODO: WRITE VALIDATOR FOR INSTAGRAM URL
+
+
+    def __str__(self):
+        return f"Id {self.id} | Link: {self.story_link}"
+
+
+
+class CustomerFeedback(models.Model):
+    describtion = models.TextField(_('Review '))
+    rank = models.IntegerField(_('Rank'))
+    customer_name = models.CharField(_('Customer Name'), max_length=80)
+    customer_position = models.CharField(_('Customer Position'), max_length=60)
+    customer_image = models.ForeignKey('common.Media', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.customer_name
