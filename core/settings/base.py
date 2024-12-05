@@ -27,7 +27,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 
 DEBUG = env.bool('DEBUG')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-AUTH_USER_MODEL = 'accounts.models.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
 LOCAL_APPS = [
