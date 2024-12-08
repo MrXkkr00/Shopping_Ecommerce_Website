@@ -68,10 +68,7 @@ class ProductReview(models.Model):
         return f"User : {self.user.name} | Product : {self.product.name} | Mavzu : {self.title}"
 
 
-class Discount(models.Model):
-    code = models.CharField(_('Code'), max_length=10)
-    max_limit_price = models.CharField(_("Max Price"), max_length=12)
-    percentage = models.IntegerField(_("Percentage"))
+
 
 
 
