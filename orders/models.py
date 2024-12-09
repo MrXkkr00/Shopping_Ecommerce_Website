@@ -92,3 +92,4 @@ class Order(models.Model):
     payment_metod = models.CharField(_("Payment Metod"), max_length=120, choices=PaymentMetod)
     delivery_tarif = models.ForeignKey("orders.DeliveryTarif", on_delete=models.SET_NULL, null=True, blank=True,
                                        related_name="orders")
+
