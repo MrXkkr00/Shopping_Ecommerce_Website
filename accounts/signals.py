@@ -16,3 +16,6 @@ def create_verification_otp(sender, instance, created, **kwargs):
 
         send_email(code=code, email=instance.email)
         print("Signal is working ")
+
+
+        #dsgsdgds
