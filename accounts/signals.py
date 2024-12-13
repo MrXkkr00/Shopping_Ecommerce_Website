@@ -18,4 +18,3 @@ def create_verification_otp(sender, instance, created, **kwargs):
         print("Signal is working ")
 
 
-        #dsgsdgds
