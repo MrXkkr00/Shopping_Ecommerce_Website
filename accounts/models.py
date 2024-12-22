@@ -28,14 +28,15 @@ class User(AbstractUser):
 
 
 
-class VerificationOpt(models.Model):
+
+class VerificationOtp(models.Model):
     class VerificationType(models.TextChoices):
         REGISTER = 'register', _('Register')
         RESET_PASSWORD = 'reset_password', _("Reset password")
     user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='verification_otp')
     code = models.IntegerField(_('Otp code'), validators=[check_otp_code])
     type = models.CharField(_('Verification Type'), max_length=60, choices=VerificationType.choices)
-    expires_in = models.DateTimeField(_('Expires in'))
+    expires_in = models.DateTimeField(_('Expires in'), auto_now_add=True)
 
 
     def __str__(self):

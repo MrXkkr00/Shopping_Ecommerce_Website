@@ -5,7 +5,6 @@ from django.core.mail import send_mail
 
 from core.settings.base import EMAIL_HOST
 
-
 def check_otp_code(value):
     if len(str(value)) != 6:
         raise ValidationError("Otp must be 6 digits")
