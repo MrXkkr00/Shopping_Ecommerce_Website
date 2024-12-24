@@ -24,7 +24,7 @@ class AddToCartView(APIView):
             if not serializer.is_valid():
                 return Response(data={"message": "invalid_data"}, status=status.HTTP_400_BAD_REQUEST)
             data = serializer.validated_data
-            product = Product.objects.get(id=data.get("product_id"))
+            product = Product.objects.get()
             item = CartItem.objects.create(user=request.user, quantity=data.get("quantity"), product=product)
 
             return Response(data={"message": "cart_item_added", "result": {"cart_item_id": item.id}})
@@ -39,7 +39,7 @@ class UpdateUserCartItem(UpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        cart_item = self.queryset.get(user=self.request.user, product_id=self.kwargs.get(self.lookup_field))
+        cart_item = self.queryset.get()
         return cart_item
 
 
@@ -69,7 +69,7 @@ class OrderCreateView(CreateAPIView):
             serializer = self.serializer_class(data=request.data)
             if not serializer.is_valid():
                 return Response(data={"message": "invalid_data"}, status=status.HTTP_400_BAD_REQUEST)
-            address = UserAddress.objects.get(id=serializer.validated_data.get("user_address"))
+            address = UserAddress.objects.get()
             cart_items = CartItem.objects.filter(id__in=serializer.validated_data.get("cart_items"))
             total_price = sum([item.product.price for item in cart_items])
             order = Order.objects.create(user=request.user, address=address, total_price=total_price)

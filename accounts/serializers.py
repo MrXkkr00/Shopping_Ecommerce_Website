@@ -17,8 +17,7 @@ class UserCreateSerializers(serializers.ModelSerializer):
     def create(self, validate_data):
         user = User.objects.filter(email=validate_data.get("email"), is_avtice = False)
         if user.exists():
-            sms = VerificationOtp.objects.get(user=user, type = VerificationOtp.VerificationType.REGISTER,
-                                              expires_in__lt = timezone.now(), is_active = True)
+            sms = VerificationOtp.objects.get()
 
             if sms:
                 sms.expires_in = timezone.now() + base.OTP_CODE_ACTIVATION_TIME
@@ -47,7 +46,7 @@ class ResetPasswordFinishSerializer(serializers.Serializer):
     password_confirm = serializers.CharField(required=True)
 
     def validate(self, attrs):
-        if attrs.get('password')!=attrs.get('password_confirm'):
+        if attrs.get('password') != attrs.get('password_confirm'):
             raise serializers.ValidationError('Password do not match')
 
         return attrs

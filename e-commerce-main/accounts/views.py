@@ -28,7 +28,7 @@ class VerifyOtpView(APIView):
             serializer = VerifyOtpSerializer(data=data)
             if not serializer.is_valid():
                 raise APIException(detail="Data is not valid")
-            user = User.objects.get(email=data.get("email"))
+            user = User.objects.get()
             verify_type = data.get("verify_type")
             sms = VerifictionOtp.objects.filter(
                 Q(user=user) &
@@ -67,7 +67,7 @@ class ResetPasswordStartView(APIView):
             serializer = ResetPasswordStartSerializer(data=data)
             if not serializer.is_valid():
                 return Response(data={"message": "email_is_not_valid"}, status=status.HTTP_400_BAD_REQUEST)
-            user = User.objects.get(email=data.get("email"))
+            user = User.objects.get()
             code = generate_code()
             VerifictionOtp.objects.create(user=user, type=VerifictionOtp.VerificationType.RESET_PASSWORD,
                                           code=code,
@@ -92,9 +92,8 @@ class ResetPasswordFinishView(APIView):
             if not serializer.is_valid():
                 return Response(data={"message": "data_is_not_valid", "result": serializer.errors},
                                 status=status.HTTP_400_BAD_REQUEST)
-            user = User.objects.get(email=data.get("email"))
-            sms_code = VerifictionOtp.objects.get(user=user, type=VerifictionOtp.VerificationType.RESET_PASSWORD,
-                                                  id=data.get("verification"))
+            user = User.objects.get()
+            sms_code = VerifictionOtp.objects.get()
             if sms_code.is_active is True:
                 return Response(data={"message": "otp_code_is_activated_yet"}, status=status.HTTP_400_BAD_REQUEST)
             user.set_password(data.get("password"))

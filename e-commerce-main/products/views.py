@@ -30,8 +30,8 @@ class ProductListAPIView(ListAPIView):
     filterset_fields = ['category', "colours", "sizes"]
 
     def get_queryset(self):
-        min_price = self.request.query_params.get("min_price", None)
-        max_price = self.request.query_params.get("max_price", None)
+        min_price = self.request.query_params.get("min_price")
+        max_price = self.request.query_params.get("max_price")
         if min_price and max_price:
             queryset = self.queryset.filter(price__gte=min_price, price__lte=max_price)
         elif min_price is None and max_price:
@@ -89,7 +89,7 @@ class ProductReviewDetailApiView(APIView):
                 "detail": 'Bunday review topilmadi'
             }
             return Response(data, status=status.HTTP_404_NOT_FOUND)
-        review = ProductReview.objects.get(id=review_id)
+        review = ProductReview.objects.get()
         serializer = AddReviewToProductSerializer(instance=review, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -104,7 +104,7 @@ class ProductReviewDetailApiView(APIView):
                 "detail": 'Bunday review topilmadi'
             }
             return Response(data, status=status.HTTP_404_NOT_FOUND)
-        review = ProductReview.objects.get(id=review_id)
+        review = ProductReview.objects.get()
         serializer = self.serializer_class(instance=review, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -119,7 +119,7 @@ class ProductReviewDetailApiView(APIView):
                 "detail": 'Bunday review topilmadi'
             }
             return Response(data, status=status.HTTP_404_NOT_FOUND)
-        review = ProductReview.objects.get(id=review_id)
+        review = ProductReview.objects.get()
         review.delete()
         data = {
             "message": "O'chirildi"
@@ -132,7 +132,7 @@ class RelatedProductsView(APIView):
 
     def get(self, request, id):
         try:
-            product = Product.objects.get(id=id)
+            product = Product.objects.get()
             products = Product.objects.filter(category=product.category).exclude(id=id)
             serializer = ProductListSerializer(products, many=True).data
             return Response(serializer)

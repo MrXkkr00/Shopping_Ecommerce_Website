@@ -18,7 +18,7 @@ class TestAddProductReview(APITestCase):
         }
        response = self.client.post(url, data=data)
        catigory = Category.objects.create(name='name')
-       user = User.objects.get(id=1)
+       user = User.objects.get()
        user.is_active = True
        user.save()
        Media.objects.create(type="IMAGE")
@@ -71,7 +71,7 @@ class TestAddProductReview(APITestCase):
             "email": "unirxojiddin@gmai.com"
         }
         self.client.post("http://127.0.0.1:8000/products/review/", data=review, headers=header)
-        response = self.client.get("http://127.0.0.1:8000/products/review/1", headers=header)
+        response = self.client.get("http://127.0.0.1:8000/products/review/1")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.data.keys()), ['title', 'review', 'rank', 'email'])
         self.assertEqual(response.data['title'], "salom")
@@ -149,5 +149,5 @@ class TestAddProductReview(APITestCase):
         self.client.post("http://127.0.0.1:8000/products/review/", data=review, headers=header)
         response = self.client.delete("http://127.0.0.1:8000/products/review/1", headers=header)
         self.assertEqual(response.status_code, 204)
-        response = self.client.get("http://127.0.0.1:8000/products/review/1", headers=header)
+        response = self.client.get("http://127.0.0.1:8000/products/review/1")
         self.assertEqual(response.status_code, 404)

@@ -20,7 +20,10 @@ from environs import Env
 env = Env()
 env.read_env()
 DEBUG = env.bool('DEBUG')
+
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+
+HOST = env.str('HOST')
 AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
@@ -38,7 +41,7 @@ LOCAL_APPS = [
 ]
 
 GLOBAL_APPS = [
-    'ckeditor',
+    'django_ckeditor_5',
     'mptt',
     'rest_framework',
     'drf_spectacular'

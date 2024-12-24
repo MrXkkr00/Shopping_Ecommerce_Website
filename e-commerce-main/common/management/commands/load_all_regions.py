@@ -13,7 +13,7 @@ class Command(BaseCommand):
         try:
             with open(str(BASE_DIR) + '/data/regions.json', 'r') as file:
                 regions = json.load(file)
-                country = Country.objects.get(name="O'zbekiston", code="UZ")
+                country = Country.objects.get()
                 for region in regions:
                     Region.objects.get_or_create(name=region['name_uz'], country=country)
 

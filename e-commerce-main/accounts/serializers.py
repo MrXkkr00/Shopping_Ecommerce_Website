@@ -14,8 +14,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.filter(email=validated_data.get("email"), is_active=False)
         if user.exists():
-            sms = VerifictionOtp.objects.get(user=user, type=VerifictionOtp.VerificationType.REGISTER,
-                                             expires_in__lt=timezone.now(), is_active=True)
+            sms = VerifictionOtp.objects.get()
             if sms:
                 sms.expires_in = timezone.now() + settings.OTP_CODE_ACTIVATION_TIME
                 code = generate_code()
